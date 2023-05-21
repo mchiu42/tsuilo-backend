@@ -21,6 +21,7 @@ const getEmailPrefix = (email)=> {
 router.post(
   '/sign_up',
   handleAsyncError(async (req, res, next) => {
+         // #swagger.tags = ['User']
     let { email, password } = req.body;
     // 帳號密碼不可為空
     if (!email || !password) {
