@@ -13,10 +13,11 @@ dotenv.config({ path: './config.env' });
 const { appError, errorEnvHandler } = require('./service/errorHandler');
 
 // ——————————  資料庫連線設定  ——————————
-const DB = process.env.DATA_BASE.replace(
-  '<password>',
-  process.env.PASSWORD
-)
+// const DB = process.env.DATA_BASE.replace(
+//   '<password>',
+//   process.env.PASSWORD
+// )
+const DB = process.env.DATA_BASE
 const mongoose = require('mongoose');
 mongoose.connect(DB).then(res => console.log('連線資料成功'));
 

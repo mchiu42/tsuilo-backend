@@ -40,11 +40,18 @@ const generateSendJWT = (user, statusCode, res) => {
   });
   user.password = undefined; // 把 password 隱藏掉，讓回傳的資料不會有password
   res.status(statusCode).json({
+    success: true,
     status: 'success',
-    user: {
-      token,
-      email: user.email,
-    },
+    message: 'ok',
+    code: 200,
+    data: [
+      {
+        user: {
+          token,
+          email: user.email,
+        },
+      },
+    ],
   });
 };
 
