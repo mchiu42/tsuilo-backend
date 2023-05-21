@@ -1,32 +1,52 @@
-require('dotenv').config()
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var cors = require('cors');
-var apiRouter = require('./routes/api');
-var apiMiddleware = require('./middlewares/api');
-var apiResponse = require('./utils/apiResponse');
-var apiErrorHandler = require('./utils/apiErrorHandler');
-var app = express();
+// const createError = require('http-errors');
+const express = require('express');
+const cors = require('cors');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
+// ——————————  設定環境變數 ——————————
+const dotenv = require('dotenv');
+dotenv.config({ path: './config.env' });
+
+// ——————————  錯誤處理  ——————————
+const { appError, errorEnvHandler } = require('./service/errorHandler');
+
+// ——————————  資料庫連線設定  ——————————
+const DB = process.env.DATA_BASE.replace(
+  '<password>',
+  process.env.PASSWORD
+)
+const mongoose = require('mongoose');
+mongoose.connect(DB).then(res => console.log('連線資料成功'));
+
+// ——————————  頁面路徑設定  ——————————
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+
+const app = express();
+
+// ——————————  view engine setup  ——————————
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+app.use(cors()); // 跨域設定
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(cors())
-app.use('/api',apiMiddleware, apiRouter, apiErrorHandler);
+app.use('/', indexRouter);
+app.use('/api/users', usersRouter);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  return apiResponse({
-    success: false,
-    code: 404,
-    message: 'not found',
-  }, res)
+// ——————————  404錯誤處理  ——————————
+app.use(function (req, res, next) {
+  appError(404, '無此路由資訊', next);
 });
+
+//  ——————————  不同環境的錯誤訊息處理(開發+正式)  ——————————
+app.use(errorEnvHandler);
+
 
 module.exports = app;
