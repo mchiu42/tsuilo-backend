@@ -7,12 +7,25 @@
   },
   "host": "localhost:3000",
   "basePath": "/",
+  "tags": [
+    {
+      "name": "Index",
+      "description": "首頁 router"
+    },
+    {
+      "name": "Users",
+      "description": "使用者 router"
+    }
+  ],
   "schemes": [
     "http"
   ],
   "paths": {
     "/": {
       "get": {
+        "tags": [
+          "Index"
+        ],
         "description": "",
         "parameters": [],
         "responses": {}
@@ -20,6 +33,9 @@
     },
     "/api/users/sign_up": {
       "post": {
+        "tags": [
+          "Users"
+        ],
         "description": "",
         "parameters": [
           {
@@ -43,6 +59,9 @@
     },
     "/api/users/sign_in": {
       "post": {
+        "tags": [
+          "Users"
+        ],
         "description": "",
         "parameters": [
           {
@@ -66,6 +85,9 @@
     },
     "/api/users/profile/": {
       "get": {
+        "tags": [
+          "Users"
+        ],
         "description": "",
         "parameters": [
           {
@@ -83,6 +105,9 @@
     },
     "/api/users/updatePassword": {
       "post": {
+        "tags": [
+          "Users"
+        ],
         "description": "",
         "parameters": [
           {
@@ -111,6 +136,9 @@
     },
     "/api/users/updateProfile": {
       "patch": {
+        "tags": [
+          "Users"
+        ],
         "description": "",
         "parameters": [
           {

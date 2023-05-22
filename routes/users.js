@@ -7,7 +7,7 @@ const { isAuth, generateSendJWT } = require('../service/auth');
 const router = express.Router();
 
 // 抓取email 前綴作為使用者名稱
-const getEmailPrefix = (email)=> {
+const getEmailPrefix = email => {
   const regex = /^([^@]+)@/;
   const match = email.match(regex);
 
@@ -16,13 +16,12 @@ const getEmailPrefix = (email)=> {
   } else {
     throw new Error('無法提取電子郵件前綴');
   }
-}
-
+};
 
 router.post(
   '/sign_up',
   handleAsyncError(async (req, res, next) => {
-     // #swagger.tags = ['User']
+    // #swagger.tags = ['Users']
     let { email, password } = req.body;
     // 帳號密碼不可為空
     if (!email || !password) {
@@ -50,7 +49,7 @@ router.post(
       email,
       password,
       name: getEmailPrefix(email),
-      photo: null
+      photo: null,
     });
     generateSendJWT(newUser, 201, res);
   })
@@ -59,7 +58,7 @@ router.post(
 router.post(
   '/sign_in',
   handleAsyncError(async (req, res, next) => {
-     // #swagger.tags = ['User']
+    // #swagger.tags = ['Users']
     const { email, password } = req.body;
     if (!email || !password) {
       return next(appError(400, '帳號密碼不可為空', next));
@@ -85,7 +84,7 @@ router.get(
   '/profile/',
   isAuth,
   handleAsyncError(async (req, res, next) => {
-     // #swagger.tags = ['User']
+    // #swagger.tags = ['Users']
     res.status(200).json({
       success: true,
       status: 'success',
@@ -108,7 +107,7 @@ router.post(
   '/updatePassword',
   isAuth,
   handleAsyncError(async (req, res, next) => {
-     // #swagger.tags = ['User']
+    // #swagger.tags = ['Users']
     const { password, confirmPassword } = req.body;
     if (password !== confirmPassword) {
       return next(appError('400', '密碼不一致！', next));
@@ -127,7 +126,7 @@ router.patch(
   '/updateProfile',
   isAuth,
   handleAsyncError(async (req, res, next) => {
-     // #swagger.tags = ['User']
+    // #swagger.tags = ['Users']
     const { name } = req.body;
 
     // 更新使用者資料
