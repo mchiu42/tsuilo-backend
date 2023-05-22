@@ -32,7 +32,7 @@ const isAuth = handleAsyncError(async (req, res, next) => {
   next();
 });
 
-// 產生 JWT token
+// 產生並送出 JWT token
 const generateSendJWT = (user, statusCode, res) => {
   // 產生 JWT token，id+想混淆的字串+過期時間
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
