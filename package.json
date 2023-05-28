@@ -1,24 +1,32 @@
 {
-  "name": "express",
+  "name": "node-express-practice",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon ./bin/www",
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "dev": "cross-env NODE_ENV=dev nodemon ./bin/www",
+    "production": "cross-env NODE_ENV=production nodemon ./bin/www",
+    "swagger-autogen": "node ./swagger.js"
   },
   "dependencies": {
-    "bcrypt": "^5.1.0",
+    "bcryptjs": "^2.4.3",
     "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "debug": "~2.6.9",
     "dotenv": "^16.0.3",
+    "ejs": "~2.6.1",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^9.0.0",
-    "mongoose": "^7.1.0",
-    "morgan": "~1.9.1"
+    "mongoose": "^7.1.1",
+    "morgan": "~1.9.1",
+    "swagger-autogen": "^2.23.1",
+    "swagger-ui-express": "^4.6.3",
+    "validator": "^13.9.0"
   },
   "devDependencies": {
-    "cors": "^2.8.5",
+    "eslint": "^8.40.0",
     "nodemon": "^2.0.22"
   }
 }
