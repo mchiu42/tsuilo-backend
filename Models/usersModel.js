@@ -9,9 +9,11 @@ const userSchema = new mongoose.Schema({
     required: [true, '請輸入您的 Email'],
     unique: true,
     lowercase: true,
-    select: false,
   },
-  photo: String,
+  photo: {
+    type: String,
+    default: 'https://placehold.co/600x400.jpg',
+  },
   sex: {
     type: String,
     enum: ['male', 'female'],

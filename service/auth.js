@@ -26,7 +26,7 @@ const isAuth = handleAsyncError(async (req, res, next) => {
     });
   });
   // 預設會帶 id 欄位資料，可自訂選取 email 欄位夾帶回傳
-  const currentUser = await User.findById(decoded.id).select('email');
+  const currentUser = await User.findById(decoded.id);
   // 自訂要返還的使用者資料
   req.user = currentUser;
   next();
@@ -48,7 +48,10 @@ const generateSendJWT = (user, statusCode, res) => {
       {
         user: {
           token,
+          _id: user._id,
+          name: user.name,
           email: user.email,
+          photo: user.photo,
         },
       },
     ],
