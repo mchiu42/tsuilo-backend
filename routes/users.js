@@ -18,6 +18,24 @@ const getEmailPrefix = email => {
   }
 };
 
+// 透過token取得使用者資料
+router.post(
+  '/user_info',
+  isAuth,
+  handleAsyncError(async (req, res, next) => {
+    // #swagger.tags = ['Users']
+    res.json({
+      success: true,
+      status: 'success',
+      message: 'ok',
+      code: 200,
+      data: {
+        user: req.user,
+      },
+    });
+  })
+);
+
 router.post(
   '/sign_up',
   handleAsyncError(async (req, res, next) => {
@@ -49,7 +67,8 @@ router.post(
       email,
       password,
       name: getEmailPrefix(email),
-      photo: null,
+      // FIXME: set setDefaultOnInsert option, base on mongoose schema
+      photo: 'https://placehold.co/600x400.jpg',
     });
     generateSendJWT(newUser, 201, res);
   })
