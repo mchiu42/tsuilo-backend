@@ -4,6 +4,7 @@ const card = {
   async getCards(req, res, next) {
     const cards = await Card.find().populate('comments.commenter');
     res.status(200).json({
+      success: true,
       status: 'success',
       data: cards,
     });
@@ -12,11 +13,13 @@ const card = {
     const searchPost = await Card.findById(req.params.cardId).populate('comments.commenter');
     if (searchPost) {
       res.status(200).json({
+        success: true,
         status: 'success',
         data: searchPost,
       });
     } else {
       res.status(200).json({
+        success: false,
         status: 'failed',
         data: '無資料',
       });
@@ -51,6 +54,7 @@ const card = {
       };
       await Card.findByIdAndUpdate(req.params.cardId, { ...patchData });
       res.status(200).json({
+        success: true,
         status: 'success',
         data: '修改資料成功',
       });
@@ -63,6 +67,7 @@ const card = {
       if (typeof content === 'string') {
         await Card.findByIdAndUpdate(req.params.cardId, { content: content });
         res.status(200).json({
+          success: true,
           status: 'success',
           data: '修改資料成功',
         });
@@ -70,23 +75,27 @@ const card = {
     }
   },
   async postCard(req, res, next) {
-    const { title, dateRange, workingHours } = req.body;
+    const { title, dateRange, workingHours, list } = req.body;
     if (title === undefined || '') return;
     if (workingHours >= 0) {
       const newPost = await Card.create({
         title,
         dateRange,
         workingHours,
+        // list,
       });
       res.status(200).json({
+        success: true,
         status: 'success',
         data: newPost,
       });
     } else {
       const newPost = await Card.create({
         title,
+        // list,
       });
       res.status(200).json({
+        success: true,
         status: 'success',
         data: newPost,
       });
@@ -95,7 +104,8 @@ const card = {
   async deleteCard(req, res, next) {
     const searchCard = await Card.findById(req.params.cardId);
     if (!searchCard) {
-      res.status(200).json({
+      res.status(400).json({
+        success: false,
         status: 'failed',
         data: '刪除資料失敗',
       });
@@ -103,6 +113,7 @@ const card = {
     }
     await Card.findByIdAndDelete(req.params.cardId);
     res.status(200).json({
+      success: true,
       status: 'success',
       data: '刪除資料成功',
     });
@@ -118,6 +129,7 @@ const card = {
       cardData.comments.push(newComment);
       await cardData.save();
       res.status(200).json({
+        success: true,
         status: 'success',
         data: '新增卡片評論成功',
       });
@@ -133,11 +145,13 @@ const card = {
       cardData.comments = cardData.comments.filter(comment => comment._id != commentId);
       await cardData.save();
       res.status(200).json({
+        success: true,
         status: 'success',
         data: '刪除卡片評論成功',
       });
     } else {
       res.status(400).json({
+        success: false,
         status: 'failed',
         data: '刪除卡片評論失敗',
       });
@@ -151,16 +165,18 @@ const card = {
         title: title,
       };
       cardData.toDoList.push(toDo);
-      console.log(cardData.toDoList);
       await cardData.save();
       res.status(200).json({
+        success: true,
         status: 'success',
         data: '新增卡片待辦清單成功',
       });
     }
   },
   async patchCardToDo(req, res, next) {
+    console.log(req.body);
     const { title, workingHours, dateRange, isFinished } = req.body;
+    console.log(isFinished);
     const result = await Card.updateOne(
       { _id: req.params.cardId, 'toDoList._id': req.params.toDoId },
       {
@@ -174,6 +190,7 @@ const card = {
     );
     if (result.matchedCount > 0) {
       res.status(200).json({
+        success: true,
         status: 'success',
         data: '修改資料成功',
       });
@@ -189,11 +206,13 @@ const card = {
       cardData.toDoList = cardData.toDoList.filter(toDo => toDo._id != toDoId);
       await cardData.save();
       res.status(200).json({
+        success: true,
         status: 'success',
         data: '刪除卡片待辦清單成功',
       });
     } else {
       res.status(400).json({
+        success: false,
         status: 'failed',
         data: '刪除卡片待辦清單失敗',
       });
