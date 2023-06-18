@@ -24,6 +24,7 @@ mongoose.connect(DB).then(res => console.log('連線資料成功'));
 // ——————————  頁面路徑設定  ——————————
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const boardsRouter = require('./routes/boards');
 const cardsRouter = require('./routes/cards');
 
 const app = express();
@@ -41,6 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
+app.use('/api/boards', boardsRouter);
 app.use('/api/cards', cardsRouter);
 
 // ——————————  設定swagger  ——————————
