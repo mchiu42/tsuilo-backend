@@ -17,13 +17,14 @@ const { appError, errorEnvHandler } = require('./service/errorHandler');
 //   '<password>',
 //   process.env.PASSWORD
 // )
-const DB = process.env.DATA_BASE
+const DB = process.env.DATA_BASE;
 const mongoose = require('mongoose');
 mongoose.connect(DB).then(res => console.log('連線資料成功'));
 
 // ——————————  頁面路徑設定  ——————————
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const cardsRouter = require('./routes/cards');
 
 const app = express();
 
@@ -40,12 +41,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
+app.use('/api/cards', cardsRouter);
 
 // ——————————  設定swagger  ——————————
-const swaggerUi = require('swagger-ui-express')
-const swaggerFile = require('./swagger_output.json') // swagger JSON
-app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerFile))
-
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('./swagger_output.json'); // swagger JSON
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 // ——————————  404錯誤處理  ——————————
 app.use(function (req, res, next) {
   appError(404, '無此路由資訊', next);
@@ -53,6 +54,5 @@ app.use(function (req, res, next) {
 
 //  ——————————  不同環境的錯誤訊息處理(開發+正式)  ——————————
 app.use(errorEnvHandler);
-
 
 module.exports = app;
