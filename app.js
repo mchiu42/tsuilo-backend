@@ -25,6 +25,7 @@ mongoose.connect(DB).then(res => console.log('連線資料成功'));
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
+const workSpacesRouter = require('./routes/workspaces');
 
 const app = express();
 
@@ -42,6 +43,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/cards', cardsRouter);
+app.use('/api/workspaces', workSpacesRouter);
 
 // ——————————  設定swagger  ——————————
 const swaggerUi = require('swagger-ui-express');
