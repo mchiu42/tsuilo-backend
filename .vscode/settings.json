@@ -37,7 +37,7 @@
   "html.format.wrapLineLength": 110,
   "vue3snippets.printWidth": 110,
   "vue3snippets.singleQuote": true,
-  "editor.accessibilitySupport": "on",
+  "editor.accessibilitySupport": "off",
   "editor.defaultFormatter": "passionkind.prettier-vscode-with-tabs",
   "editor.formatOnType": true,
   "editor.formatOnSave": true,
